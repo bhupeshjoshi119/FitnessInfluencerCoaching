@@ -1,0 +1,85 @@
+erDiagram
+    TRAINER ||--o{ FITNESS_PLAN : "creates"
+    FITNESS_PLAN ||--o{ SUBSCRIPTION : "is_purchased_in"
+    CLIENT ||--o{ SUBSCRIPTION : "purchases"
+    SUBSCRIPTION ||--o{ CHECK_IN : "has_weekly"
+    SUBSCRIPTION ||--o{ PAYMENT : "is_billed_by"
+    TRAINER ||--o{ SESSION : "conducts"
+    CLIENT ||--o{ SESSION : "attends"
+
+    TRAINER {
+        int trainer_id PK
+        varchar name
+        varchar email
+        varchar password_hash
+        text bio
+        varchar expertise
+        datetime created_at
+    }
+
+    CLIENT {
+        int client_id PK
+        varchar name
+        varchar email
+        varchar password_hash
+        date date_of_birth
+        varchar gender
+        decimal height_cm
+        datetime created_at
+    }
+
+    FITNESS_PLAN {
+        int plan_id PK
+        int trainer_id FK
+        varchar name
+        text description
+        decimal price
+        int duration_weeks
+        text workout_routine
+        text diet_guidance
+        boolean is_active
+    }
+
+    SUBSCRIPTION {
+        int subscription_id PK
+        int client_id FK
+        int plan_id FK
+        date start_date
+        date end_date
+        varchar status
+        datetime created_at
+    }
+
+    PAYMENT {
+        int payment_id PK
+        int subscription_id FK
+        decimal amount
+        varchar payment_method
+        varchar status
+        varchar transaction_id
+        datetime paid_at
+    }
+
+    SESSION {
+        int session_id PK
+        int trainer_id FK
+        int client_id FK
+        varchar session_type
+        datetime scheduled_at
+        int duration_minutes
+        varchar status
+        varchar meeting_link
+        text notes
+    }
+
+    CHECK_IN {
+        int checkin_id PK
+        int subscription_id FK
+        date checkin_date
+        decimal weight_kg
+        decimal waist_cm
+        decimal chest_cm
+        text client_report
+        text trainer_notes
+        datetime submitted_at
+    }
